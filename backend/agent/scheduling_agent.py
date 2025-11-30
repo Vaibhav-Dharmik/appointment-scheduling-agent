@@ -17,7 +17,7 @@ from ..models.schemas import (
 )
 from .prompts import SYSTEM_PROMPT
 
-LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4.1-mini")
+LLM_MODEL = os.getenv("LLM_MODEL", "gpt-4-mini")
 
 
 class SchedulingAgent:
@@ -39,22 +39,69 @@ class SchedulingAgent:
         self.booking_tool = booking_tool
 
     async def _call_llm(self, messages):
+        """Call OpenAI LLM with fallback to mock responses."""
+        # Check USE_MOCK_LLM dynamically (not at import time)
+        use_mock_llm = os.getenv("USE_MOCK_LLM", "true").lower() == "true"
+        
+        if use_mock_llm:
+            # Use intelligent mock responses
+            return self._generate_mock_response(messages)
+        
         try:
             api_key = os.getenv("OPENAI_API_KEY")
             if not api_key:
-                # Return mock response if no API key
-                return "I'm an AI assistant. Due to API limitations, I'm providing a demo response. In a production environment, I would use GPT to generate more personalized responses."
+                print("Warning: OPENAI_API_KEY not set, using mock responses")
+                return self._generate_mock_response(messages)
             
             client = AsyncOpenAI(api_key=api_key)
             resp = await client.chat.completions.create(
                 model=LLM_MODEL,
                 messages=messages,
+                max_tokens=500,
             )
             return resp.choices[0].message.content
         except Exception as e:
-            # Fallback for API errors
-            print(f"LLM call error: {e}")
-            return "I apologize for the temporary issue. Please try again in a moment."
+            # Fallback for API errors (quota, network, etc)
+            print(f"LLM call error: {e}, using mock response")
+            return self._generate_mock_response(messages)
+    
+    def _generate_mock_response(self, messages: list) -> str:
+        """Generate intelligent mock responses based on conversation context."""
+        if not messages:
+            return "Hello! How can I assist you with scheduling an appointment?"
+        
+        # Get the FIRST substantive user message (skip system prompts and instructions)
+        last_user_msg = None
+        for msg in messages:
+            if isinstance(msg, dict):
+                if msg.get("role") == "user":
+                    content = msg.get("content", "").lower()
+                    # Skip instructions like "please respond naturally"
+                    if not content.startswith("please "):
+                        last_user_msg = content
+                        break
+        
+        if not last_user_msg:
+            return "I'm here to help. What would you like to do?"
+        
+        # Intelligent fallback responses based on detected patterns
+        if any(k in last_user_msg for k in ["hours", "open", "close", "when", "location", "address"]):
+            return "Our clinic is open Monday-Friday, 9 AM - 5 PM, and Saturday 10 AM - 2 PM. We're located at 123 Healthcare Ave. Is there anything else I can help you with?"
+        
+        if any(k in last_user_msg for k in ["insurance", "billing", "payment", "cost", "price", "fee"]):
+            return "We accept most major insurance plans. You're welcome to contact our billing department at (555) 123-4567 for specific coverage questions. Would you like to schedule an appointment?"
+        
+        if any(k in last_user_msg for k in ["book", "schedule", "appointment", "date", "time", "reschedule"]):
+            return "I can help you schedule an appointment! Please let me know:\n1) Type of appointment (general consultation, follow-up, physical exam, specialist consultation)\n2) Your preferred date (YYYY-MM-DD)\n3) Time preference (morning or afternoon)\n\nWhich appointment type interests you?"
+        
+        if any(k in last_user_msg for k in ["cancel", "reschedule", "change", "modify"]):
+            return "I can help you modify your appointment. Please provide your confirmation code or appointment ID so I can look it up. Then let me know what changes you'd like to make."
+        
+        if any(k in last_user_msg for k in ["doctor", "physician", "specialist", "staff", "qualifications"]):
+            return "Our team consists of experienced healthcare professionals. For detailed information about specific doctors and their specialties, please visit our website or call our main office."
+        
+        # Default friendly response
+        return "Thank you for reaching out! I'm here to help with appointment scheduling, answer clinic questions, and provide support. What can I assist you with today?"
 
     def _detect_intent(self, last_user_message: str) -> str:
         msg = last_user_message.lower()

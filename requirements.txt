@@ -5,3 +5,5 @@ httpx
 python-dotenv
 openai>=1.0.0
 chromadb
+pytest
+pytest-asyncio
