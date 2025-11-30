@@ -14,8 +14,12 @@ const Index = () => {
                 <Activity className="w-5 h-5 text-primary-foreground" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-foreground">MediSchedule</h1>
-                <p className="text-xs text-muted-foreground">Intelligent Appointment Scheduling</p>
+                <h1 className="text-xl font-semibold text-foreground">
+                  MediSchedule
+                </h1>
+                <p className="text-xs text-muted-foreground">
+                  Intelligent Appointment Scheduling
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -39,7 +43,9 @@ const Index = () => {
                   <Calendar className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm text-foreground mb-1">Smart Scheduling</h3>
+                  <h3 className="font-semibold text-sm text-foreground mb-1">
+                    Smart Scheduling
+                  </h3>
                   <p className="text-xs text-muted-foreground">
                     AI-powered appointment booking with real-time availability
                   </p>
@@ -53,7 +59,9 @@ const Index = () => {
                   <Activity className="w-5 h-5 text-accent" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm text-foreground mb-1">Instant Answers</h3>
+                  <h3 className="font-semibold text-sm text-foreground mb-1">
+                    Instant Answers
+                  </h3>
                   <p className="text-xs text-muted-foreground">
                     Get quick answers to clinic FAQs and policies
                   </p>
@@ -67,7 +75,9 @@ const Index = () => {
                   <Shield className="w-5 h-5 text-foreground" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm text-foreground mb-1">Secure & Private</h3>
+                  <h3 className="font-semibold text-sm text-foreground mb-1">
+                    Secure & Private
+                  </h3>
                   <p className="text-xs text-muted-foreground">
                     Your health information is protected and confidential
                   </p>
