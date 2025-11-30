@@ -1,0 +1,30 @@
+[
+  {
+    "title": "Clinic Location",
+    "content": "We are located at 123 Health Street, Springfield. The nearest landmark is Central Mall."
+  },
+  {
+    "title": "Parking Information",
+    "content": "Free parking is available in the clinic basement for up to 2 hours. Street parking is also available."
+  },
+  {
+    "title": "Hours of Operation",
+    "content": "Our clinic is open Monday to Friday from 9:00 AM to 5:00 PM, and Saturday from 9:00 AM to 1:00 PM. We are closed on Sundays and public holidays."
+  },
+  {
+    "title": "Accepted Insurance",
+    "content": "We accept Blue Cross Blue Shield, Aetna, Cigna, UnitedHealthcare, Medicare, and most major providers. Please bring your insurance card."
+  },
+  {
+    "title": "Payment Methods",
+    "content": "We accept cash, credit cards, debit cards, and digital wallets. Co-pays are due at the time of service."
+  },
+  {
+    "title": "Cancellation Policy",
+    "content": "We request at least 24 hours notice for cancellations. Late cancellations or no-shows may be subject to a fee."
+  },
+  {
+    "title": "Visit Preparation",
+    "content": "Please bring a government-issued ID, your insurance card, a list of current medications, and any prior medical reports relevant to your visit."
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "doctor_name": "Dr. Smith",
+  "working_hours": {
+    "monday_to_friday": "09:00-17:00"
+  },
+  "notes": "Mock schedule; real data should come from Calendly."
+}
